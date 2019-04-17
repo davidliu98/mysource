@@ -167,8 +167,4 @@ void sort_list(PNODE pHead){
         }
     }
     return 0;
-<<<<<<< HEAD
-    
-=======
->>>>>>> the three commit
 }
