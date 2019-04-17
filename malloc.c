@@ -25,6 +25,6 @@ int main(void)
 
     free(pArr);
     system("pause");
-    //getchar();
+    getchar();
     return 0;
 }
