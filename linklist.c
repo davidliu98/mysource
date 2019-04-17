@@ -32,12 +32,8 @@ int main(void)
     pHead = create_list(); //创建一个非循环单链表，并将该链表的头节点地址赋给phead
     printf("linklist len is: %d \n", length_list(pHead));
     traverse_list(pHead); //输出链表
-<<<<<<< HEAD
-
-=======
     sort_list(pHead);
     traverse_list(pHead);
->>>>>>> 第一次提交
     system("pause");
     return 0;
 }
@@ -157,9 +153,6 @@ int length_list(PNODE pHead)
  * 对链表进行排序
 */
 void sort_list(PNODE pHead){
-<<<<<<< HEAD
-
-=======
     int i , j ,t;
     PNODE p , q;
     int lens =length_list(pHead);
@@ -173,6 +166,5 @@ void sort_list(PNODE pHead){
             }
         }
     }
-    return;
->>>>>>> 第一次提交
+    return 0;
 }
