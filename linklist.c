@@ -13,13 +13,13 @@ typedef struct Node
 /**
  * 函数声明
 */
-PNODE create_list(void);                          //创建链表
-void traverse_list(PNODE pHead);                  //输出链表
-bool is_empty(PNODE pHead);                       //判断链表是否为空
-int length_list(PNODE pHead);                     //获取链表长度
-//bool insert_list(PNODE pHead, int pos, int val);  //插入节点 pos插入节点的位置，val插入节点的数据
-//bool delete_list(PNODE pHead, int pos, int *val); //删除节点 pos删除节点的位置，val保存删除节点的数据
-void sort_list(PNODE pHead);                      //排序
+PNODE create_list(void);                         //创建链表
+void traverse_list(PNODE pHead);                 //输出链表
+bool is_empty(PNODE pHead);                      //判断链表是否为空
+int length_list(PNODE pHead);                    //获取链表长度
+bool insert_list(PNODE pHead, int pos, int val); //插入节点 pos插入节点的位置，val插入节点的数据
+bool delete_list(PNODE pHead, int pos, int *val); //删除节点 pos删除节点的位置，val保存删除节点的数据
+void sort_list(PNODE pHead); //排序
 
 /**
  * 入口main
@@ -27,12 +27,18 @@ void sort_list(PNODE pHead);                      //排序
 
 int main(void)
 {
-
+    int val;
     PNODE pHead = NULL;    //等价于struct Node * pHead = NULL;
     pHead = create_list(); //创建一个非循环单链表，并将该链表的头节点地址赋给phead
     printf("linklist len is: %d \n", length_list(pHead));
-    traverse_list(pHead); //输出链表
-    sort_list(pHead);
+    traverse_list(pHead);      //输出链表
+    sort_list(pHead);          //排序
+    insert_list(pHead, 5, 33); //插入元素
+    if(delete_list(pHead,4,&val)){
+        printf("delete is ok val= %d\n",val); 
+    }else{
+        printf("Field delete");
+    }
     traverse_list(pHead);
     system("pause");
     return 0;
@@ -139,7 +145,7 @@ int length_list(PNODE pHead)
 {
     int lens = 0; //临时变量存放链表长度
 
-    PNODE p = pHead->pNext;//为了不改变phead的结构，建立一个新的临时指向PNODE的指针
+    PNODE p = pHead->pNext; //为了不改变phead的结构，建立一个新的临时指向PNODE的指针
 
     while (p != NULL)
     {
@@ -152,19 +158,86 @@ int length_list(PNODE pHead)
 /**
  * 对链表进行排序
 */
-void sort_list(PNODE pHead){
-    int i , j ,t;
-    PNODE p , q;
-    int lens =length_list(pHead);
+void sort_list(PNODE pHead)
+{
+    int i, j, t;
+    PNODE p, q;
+    int lens = length_list(pHead);
 
-    for(i = 0 ,p = pHead->pNext ; i<lens-1; i++, p = p->pNext){
-        for(j=i+1, q=p->pNext; j<lens; j++, q=q->pNext){
-            if(p->date>q->date){
-                t=p->date;
+    for (i = 0, p = pHead->pNext; i < lens - 1; i++, p = p->pNext)
+    {
+        for (j = i + 1, q = p->pNext; j < lens; j++, q = q->pNext)
+        {
+            if (p->date > q->date)
+            {
+                t = p->date;
                 p->date = q->date;
                 q->date = t;
             }
         }
     }
-    return 0;
+    return;
+}
+
+/**
+ * 向链表插入一条数据
+ * 在PHADE链表，第pos个节点前面插入一个新的节点，该节点的数值为VAL
+ * pos从1开始
+ * */
+bool insert_list(PNODE pHead, int pos, int val)
+{
+    int i = 0;
+    PNODE p = pHead;
+
+    while (p != NULL && i < pos - 1)
+    {
+        p = p->pNext;
+        i++;
+    }
+
+    if (i > pos - 1 || p == NULL)
+    {
+        return false;
+    }
+
+    PNODE pNew = (PNODE)malloc(sizeof(NODE));
+    if (pNew == NULL)
+    {
+        printf("Failed to allocate memory");
+        exit(-1);
+    }
+
+    pNew->date = val;
+    PNODE q = p->pNext;
+    p->pNext = pNew;
+    pNew->pNext = q;
+
+    return true;
+}
+
+/**
+ * 删除链表中的数据
+ * 
+*/
+bool delete_list(PNODE pHead, int pos, int *val){
+    
+    int i = 0;
+    PNODE p = pHead;
+
+    while (p->pNext != NULL && i < pos - 1)
+    {
+        p = p->pNext;
+        i++;
+    }
+
+    if (i > pos - 1 || p->pNext == NULL)
+    {
+        return false;
+    }
+
+    PNODE q =p->pNext;
+    *val = q->date;
+
+    p->pNext = p->pNext->pNext;
+    return true;
 }
