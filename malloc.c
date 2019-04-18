@@ -4,8 +4,6 @@
 
 int main(void)
 {
-
-
     int len, i;
 
     printf("malloc memory len is = ");
