@@ -7,7 +7,7 @@ int main(void)
 
     int len, i;
 
-    printf("��ȷ������������ĳ��� len = ");
+    printf("malloc memory len is = ");
 
     scanf("%d", &len);
 
